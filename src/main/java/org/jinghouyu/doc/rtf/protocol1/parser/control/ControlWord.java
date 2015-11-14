@@ -2,11 +2,11 @@ package org.jinghouyu.doc.rtf.protocol1.parser.control;
 
 import java.io.IOException;
 
+import org.jinghouyu.doc.rtf.protocol1.parser.Entity;
 import org.jinghouyu.doc.rtf.protocol1.parser.stream.OneBackInputStream;
-import org.jinghouyu.doc.rtf.protocol2.parser.ele.Element;
 import org.jinghouyu.doc.rtf.protocol2.parser.ele.ElementType;
 
-public class ControlWord implements Element {
+public class ControlWord implements Entity {
 	
 	private String parameter;
 	private String name;
@@ -84,5 +84,18 @@ public class ControlWord implements Element {
 
 	public ElementType getElementType() {
 		return ElementType.ControlWord;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder("\\");
+		if(controlName != null) {
+			sb.append(controlName);
+		} else {
+			sb.append(name);
+		}
+		if(parameter != null) {
+			sb.append(parameter);
+		}
+		return sb.toString();
 	}
 }

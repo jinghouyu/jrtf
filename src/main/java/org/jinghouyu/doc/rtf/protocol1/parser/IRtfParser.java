@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface IRtfParser {
 
-	void parse() throws IOException;
+	EntityIterator parse() throws IOException;
 }

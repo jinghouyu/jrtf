@@ -11,23 +11,27 @@ public class OneBackInputStream {
 		this.in = in;
 	}
 	
-	private boolean hasBack = true;
-	private Integer last;
-	
 	private long readed;
 	
+	private Integer last;
+	private boolean hasBackCalled = false;
+	
 	public int read() throws IOException {
-		int c = in.read();
-		if(c == -1) return c;
-		last = c;
-		hasBack = false;
-		readed++;
-		return c;
+		if(hasBackCalled) {
+			hasBackCalled = false;
+			if(last != null) {
+				int temp = last;
+				return temp;
+			}
+		}
+		int d = in.read();
+		if(d == -1) return -1;
+		last = d;
+		return d;
 	}
 	
 	public void back() {
-		if(hasBack) return;
-		readed--;
+		hasBackCalled = true;
 	}
 	
 	public long getReaded() {
