@@ -1,10 +1,11 @@
 package org.jinghouyu.doc.rtf.utils.syntax.expression;
 
 import org.jinghouyu.doc.rtf.utils.syntax.Expression;
+import org.jinghouyu.doc.rtf.utils.syntax.ExpressionResult;
 import org.jinghouyu.doc.rtf.utils.syntax.Sentence;
+import org.jinghouyu.doc.rtf.utils.syntax.Sentence.DefaultSentence;
 import org.jinghouyu.doc.rtf.utils.syntax.Word;
 import org.jinghouyu.doc.rtf.utils.syntax.WordIterator;
-import org.jinghouyu.doc.rtf.utils.syntax.Sentence.DefaultSentence;
 
 public class NonOrLimitlessExpression implements Expression {
 
@@ -14,17 +15,22 @@ public class NonOrLimitlessExpression implements Expression {
 		this.expression = exp;
 	}
 	
-	public Sentence parse(WordIterator it) {
+	public ExpressionResult parse(WordIterator it) {
 		Sentence s = null;
 		while(true) {
-			Word w = expression.parse(it);
-			if(w == null) break;
-			if(s == null) {
-				s = newSentence();
+			ExpressionResult er = expression.parse(it);
+			if(!er.isSuccess()) {
+				break;
 			}
-			s.addWord(w);
+			Word w = er.getWord();
+			if(w != null) {
+				if(s == null) {
+					s = newSentence();
+				}
+				s.addWord(w);
+			}
 		}
-		return s;
+		return ExpressionResult.success(s);
 	}
 	
 	protected Sentence newSentence() {

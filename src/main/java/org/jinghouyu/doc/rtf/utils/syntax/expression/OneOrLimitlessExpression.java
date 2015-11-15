@@ -1,6 +1,7 @@
 package org.jinghouyu.doc.rtf.utils.syntax.expression;
 
 import org.jinghouyu.doc.rtf.utils.syntax.Expression;
+import org.jinghouyu.doc.rtf.utils.syntax.ExpressionResult;
 import org.jinghouyu.doc.rtf.utils.syntax.Sentence;
 import org.jinghouyu.doc.rtf.utils.syntax.Sentence.DefaultSentence;
 import org.jinghouyu.doc.rtf.utils.syntax.Word;
@@ -14,17 +15,24 @@ public class OneOrLimitlessExpression implements Expression {
 		this.expression = exp;
 	}
 	
-	public Sentence parse(WordIterator it) {
+	public ExpressionResult parse(WordIterator it) {
 		Sentence s = null;
 		while(true) {
-			Word w = expression.parse(it);
-			if(w == null) break;
+			ExpressionResult er = expression.parse(it);
+			if(!er.isSuccess()) break;
+			Word word = er.getWord();
 			if(s == null) {
 				s = newSentence();
 			}
-			s.addWord(w);
+			if(word != null) {
+				s.addWord(word);
+			}
 		}
-		return s;
+		if(s == null) {
+			return ExpressionResult.error();
+		} else {
+			return ExpressionResult.success(s);
+		}
 	}
 	
 	protected Sentence newSentence() {

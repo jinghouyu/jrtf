@@ -1,7 +1,7 @@
 package org.jinghouyu.doc.rtf.utils.syntax.expression;
 
 import org.jinghouyu.doc.rtf.utils.syntax.Expression;
-import org.jinghouyu.doc.rtf.utils.syntax.Word;
+import org.jinghouyu.doc.rtf.utils.syntax.ExpressionResult;
 import org.jinghouyu.doc.rtf.utils.syntax.WordIterator;
 
 public class NonOrOneExpression implements Expression {
@@ -12,8 +12,9 @@ public class NonOrOneExpression implements Expression {
 		this.expression = expression;
 	}
 	
-	public Word parse(WordIterator it) {
-		return expression.parse(it);
+	public ExpressionResult parse(WordIterator it) {
+		ExpressionResult er = expression.parse(it);
+		return ExpressionResult.success(er.getWord());
 	}
 	
 	public String toString() {

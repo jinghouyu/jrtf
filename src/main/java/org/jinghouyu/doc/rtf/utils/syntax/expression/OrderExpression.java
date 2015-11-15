@@ -4,36 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jinghouyu.doc.rtf.utils.syntax.Expression;
+import org.jinghouyu.doc.rtf.utils.syntax.ExpressionResult;
 import org.jinghouyu.doc.rtf.utils.syntax.Sentence;
 import org.jinghouyu.doc.rtf.utils.syntax.Sentence.DefaultSentence;
-import org.jinghouyu.doc.rtf.utils.syntax.SyntaxException;
 import org.jinghouyu.doc.rtf.utils.syntax.Word;
 import org.jinghouyu.doc.rtf.utils.syntax.WordIterator;
 
 public class OrderExpression implements Expression {
 
 	private List<Expression> expressions = new ArrayList<Expression>();
-	private boolean root = false;
 	
-	public OrderExpression(boolean root) {
-		this.root = root;
-	}
-	
-	public Sentence parse(WordIterator it) {
+	public ExpressionResult parse(WordIterator it) {
 		Sentence s = newSentence();
 		for(int i = 0; i < expressions.size(); i++) {
 			Expression exp = expressions.get(i);
-			Word w = exp.parse(it);
-			if(w == null) {
-				if(root) {
-					throw new SyntaxException("unexpected word " + it.next());
-				} else {
-					return null;
+			ExpressionResult er = exp.parse(it);
+			if(!er.isSuccess()) {
+				return ExpressionResult.error();
+			} else {
+				Word w = er.getWord();
+				if(w != null) {
+					s.addWord(w);
 				}
 			}
-			s.addWord(w);
 		}
-		return s;
+		return ExpressionResult.success(s);
 	}
 	
 	public void addExpression(Expression exp) {

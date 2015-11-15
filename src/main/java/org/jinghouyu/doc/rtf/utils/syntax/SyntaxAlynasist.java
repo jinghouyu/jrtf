@@ -21,7 +21,7 @@ public class SyntaxAlynasist {
 	}
 
 	private OrderExpression compile(SynaxScanner scanner, boolean child) {
-		OrderExpression ex = new OrderExpression(true);
+		OrderExpression ex = new OrderExpression();
 		while (scanner.hasNext()) {
 			char c = scanner.next();
 			switch (c) {
@@ -35,6 +35,7 @@ public class SyntaxAlynasist {
 				break;
 			}
 			case '(':
+				stack.push(true);
 				ex.addExpression(compile(scanner, true));
 				break;
 			case '?': {
@@ -52,6 +53,7 @@ public class SyntaxAlynasist {
 				if (last == null) {
 					throw new SyntaxException("no expression before + " + scanner.pos());
 				}
+				ex.removeLast();
 				Expression exp = new OneOrLimitlessExpression(last);
 				ex.addExpression(exp);
 				break;
@@ -61,6 +63,7 @@ public class SyntaxAlynasist {
 				if (last == null) {
 					throw new SyntaxException("no expression before * " + scanner.pos());
 				}
+				ex.removeLast();
 				Expression exp = new NonOrLimitlessExpression(last);
 				ex.addExpression(exp);
 				break;
@@ -106,6 +109,7 @@ public class SyntaxAlynasist {
 				continue;
 			} else {
 				if(c == '(') {
+					stack.push(true);
 					ex.addExpression(compile(scanner, true));
 					expressioned = true;
 					continue;
@@ -138,6 +142,7 @@ public class SyntaxAlynasist {
 				continue;
 			} else {
 				if(c == '(') {
+					stack.push(true);
 					ex.addExpression(compile(scanner, true));
 					expressioned = true;
 					continue;
@@ -155,8 +160,12 @@ public class SyntaxAlynasist {
 		return ex;
 	}
 	
-	public Sentence parse(WordIterator it) {
+	public ExpressionResult parse(WordIterator it) {
 		return expression.parse(it);
+	}
+	
+	public Expression getCompiledExpression() {
+		return this.expression;
 	}
 	
 	public static void main(String[] args) {

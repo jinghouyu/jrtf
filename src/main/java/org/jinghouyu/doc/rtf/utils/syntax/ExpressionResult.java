@@ -16,7 +16,7 @@ public class ExpressionResult {
 	
 	public static ExpressionResult error() {
 		ExpressionResult result = new ExpressionResult();
-		result.success =  true;
+		result.success = false;
 		return result;
 	}
 	

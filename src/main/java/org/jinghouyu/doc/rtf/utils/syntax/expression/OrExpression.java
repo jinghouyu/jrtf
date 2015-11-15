@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jinghouyu.doc.rtf.utils.syntax.Expression;
-import org.jinghouyu.doc.rtf.utils.syntax.Word;
+import org.jinghouyu.doc.rtf.utils.syntax.ExpressionResult;
 import org.jinghouyu.doc.rtf.utils.syntax.WordIterator;
 
 public class OrExpression implements Expression {
 
 	private List<Expression> expressions = new ArrayList<Expression>();
 	
-	public Word parse(WordIterator it) {
+	public ExpressionResult parse(WordIterator it) {
 		for(Expression exp : expressions) {
-			Word w = exp.parse(it);
-			if(w != null) return w;
+			ExpressionResult er = exp.parse(it);
+			if(er.isSuccess()) {
+				return ExpressionResult.success(er.getWord());
+			}
 		}
-		return null;
+		return ExpressionResult.error();
 	}
 	
 	public void addExpression(Expression exp) {
