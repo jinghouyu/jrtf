@@ -1,10 +1,10 @@
 package org.jinghouyu.doc.rtf.protocol1.parser.control;
 
 import java.io.IOException;
+import java.lang.annotation.ElementType;
 
 import org.jinghouyu.doc.rtf.protocol1.parser.Entity;
 import org.jinghouyu.doc.rtf.protocol1.parser.stream.OneBackInputStream;
-import org.jinghouyu.doc.rtf.protocol2.parser.ele.ElementType;
 
 public class ControlWord implements Entity {
 	
@@ -82,10 +82,6 @@ public class ControlWord implements Entity {
 		return this.parameter;
 	}
 
-	public ElementType getElementType() {
-		return ElementType.ControlWord;
-	}
-	
 	public String toString() {
 		StringBuilder sb = new StringBuilder("\\");
 		if(controlName != null) {
