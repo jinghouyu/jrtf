@@ -34,9 +34,12 @@ public class StandardRtfParser implements IRtfParser {
 				return entity != null;
 			}
 			public Entity next() throws IOException {
-				Entity tmp = entity;
-				entity = null;
-				return tmp;
+				if(hasNext()) {
+					Entity tmp = entity;
+					entity = null;
+					return tmp;
+				}
+				return null;
 			}
 		};
 	}

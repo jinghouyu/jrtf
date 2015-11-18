@@ -1,7 +1,6 @@
 package org.jinghouyu.doc.rtf.protocol1.parser.control;
 
 import java.io.IOException;
-import java.lang.annotation.ElementType;
 
 import org.jinghouyu.doc.rtf.protocol1.parser.Entity;
 import org.jinghouyu.doc.rtf.protocol1.parser.stream.OneBackInputStream;
