@@ -36,19 +36,32 @@ public class HeaderEntityScanner {
 		return new HeaderEntityScanner() {
 			int count = 0;
 			public Entity next() throws IOException {
-				while(true) {
-					Entity entity = othis.next();
-					if(entity == null) return null;
-					if(count == 0 && entity instanceof GroupEndEntity) {
-						return null;
-					}
-					if(entity instanceof GroupStartEntity) {
-						count++;
-					} else if(entity instanceof GroupEndEntity) {
-						count--;
-					}
-					return entity;
+				Entity entity = othis.next();
+				if(entity == null) return null;
+				if(count == 0 && entity instanceof GroupEndEntity) {
+					return null;
 				}
+				if(entity instanceof GroupStartEntity) {
+					count++;
+				} else if(entity instanceof GroupEndEntity) {
+					count--;
+				}
+				return entity;
+			}
+		};
+	}
+	
+	public HeaderEntityScanner getPlusScanner(final Entity... entities) {
+		if(entities == null || entities.length == 0) return this;
+		final HeaderEntityScanner othis = this;
+		return new HeaderEntityScanner() {
+			private int index = 0;
+			public Entity next() throws IOException {
+				if(index < entities.length) {
+					return entities[index++];
+				}
+				Entity entity = othis.next();
+				return entity;
 			}
 		};
 	}
