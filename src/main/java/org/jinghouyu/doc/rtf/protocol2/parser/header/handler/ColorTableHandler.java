@@ -24,6 +24,7 @@ public class ColorTableHandler implements HeaderControlHandler {
 		regNames.add(ControlName.blue);
 	}
 	
+	//colortbl
 	public void handleControl(Header header, ControlWord word, HeaderEntityScanner it) throws IOException {
 		HeaderEntityScanner scanner = it.getInnerGroupScanner();
 		ColorTableEntry entry = null;
@@ -47,6 +48,10 @@ public class ColorTableHandler implements HeaderControlHandler {
 				entry = new ColorTableEntry();
 			}
 			setEntry(entry, cw);
+		}
+		
+		if(header.getFontTable() != null) {
+			header.setHeadEnd(true);
 		}
 	}
 	

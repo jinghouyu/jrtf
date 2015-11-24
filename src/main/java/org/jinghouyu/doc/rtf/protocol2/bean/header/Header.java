@@ -58,4 +58,58 @@ public class Header {
 		if(colorTable == null) colorTable = new ArrayList<ColorTableEntry>();
 		colorTable.add(entry);
 	}
+
+	public List<FontTableEntry> getFontTable() {
+		return fontTable;
+	}
+
+	public void setFontTable(List<FontTableEntry> fontTable) {
+		this.fontTable = fontTable;
+	}
+
+	public List<ColorTableEntry> getColorTable() {
+		return colorTable;
+	}
+
+	public void setColorTable(List<ColorTableEntry> colorTable) {
+		this.colorTable = colorTable;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public String getDefCharset() {
+		return defCharset;
+	}
+
+	public Integer getDefFont() {
+		return defFont;
+	}
+
+	public Integer getDefEastAsianFont() {
+		return defEastAsianFont;
+	}
+
+	public Integer getDefASCFont() {
+		return defASCFont;
+	}
+
+	public Integer getDefANSIFont() {
+		return defANSIFont;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+	
+	private boolean headEnd = false;
+	
+	public void setHeadEnd(boolean headEnd) {
+		this.headEnd = headEnd;
+	}
+	
+	public boolean isHeadEnd() {
+		return this.headEnd;
+	}
 }

@@ -18,6 +18,7 @@ public class HeaderParser {
 	public Header parse(HeaderEntityScanner it) throws IOException {
 		Header header = new Header();
 		while(true) {
+			if(header.isHeadEnd()) return header;
 			Entity entity = it.next();
 			if(entity == null) return header;
 			if(!(entity instanceof ControlWord)) continue;

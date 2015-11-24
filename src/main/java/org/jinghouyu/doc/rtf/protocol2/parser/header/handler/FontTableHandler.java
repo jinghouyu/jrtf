@@ -14,10 +14,19 @@ import org.jinghouyu.doc.rtf.protocol2.bean.header.Header;
 import org.jinghouyu.doc.rtf.protocol2.bean.header.fonttable.FontTableEntry;
 import org.jinghouyu.doc.rtf.protocol2.parser.header.HeaderControlHandler;
 import org.jinghouyu.doc.rtf.protocol2.parser.header.HeaderEntityScanner;
+import org.jinghouyu.doc.rtf.protocol2.parser.header.handler.fonttable.FHandler;
+import org.jinghouyu.doc.rtf.protocol2.parser.header.handler.fonttable.FcharsetHandler;
+import org.jinghouyu.doc.rtf.protocol2.parser.header.handler.fonttable.FqrqHandler;
 
 public class FontTableHandler implements HeaderControlHandler {
 	
 	private static Map<ControlName, FontTableEntryControlHandler> handlers = new HashMap<ControlName, FontTableEntryControlHandler>();
+	
+	static {
+		handlers.put(ControlName.fcharset, new FcharsetHandler());
+		handlers.put(ControlName.f, new FHandler());
+		handlers.put(ControlName.fprq, new FqrqHandler());
+	}
 	
 	//fonttbl
 	public void handleControl(Header header, ControlWord word, HeaderEntityScanner it) throws IOException {
@@ -27,6 +36,10 @@ public class FontTableHandler implements HeaderControlHandler {
 			parse(header, it.getPlusScanner(new Entity[]{next}));
 		} else {
 			parse(header, it.getInnerGroupScanner());
+		}
+		
+		if(header.getColorTable() != null) {
+			header.setHeadEnd(true);
 		}
 	}
 	

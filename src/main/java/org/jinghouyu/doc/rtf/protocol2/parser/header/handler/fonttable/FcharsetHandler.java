@@ -38,9 +38,6 @@ public class FcharsetHandler implements FontTableEntryControlHandler {
 		cpMap.put("163", "1258");
 		cpMap.put("177", "1255");
 		cpMap.put("178", "1256");
-		cpMap.put("179", "");
-		cpMap.put("180", "");
-		cpMap.put("181", "");
 		cpMap.put("186", "1257");
 		cpMap.put("204", "1251");
 		cpMap.put("222", "874");
